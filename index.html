@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Cybersecurity Quiz</title>
+    <style>
+        :root {
+            --primary-color: #282c34;
+            --secondary-color: #61dafb;
+            --accent-color: #ff9800;
+            --background-color: #20232a;
+            --text-color: #ffffff;
+            --card-bg: #2e3137;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px;
+            background-color: var(--primary-color);
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            color: var(--secondary-color);
+        }
+
+        .quiz-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 20px;
+            height: 100vh;
+        }
+
+        .quiz-card {
+            background-color: var(--card-bg);
+            width: 100%;
+            max-width: 500px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        .quiz-card h2 {
+            margin-top: 0;
+            color: var(--accent-color);
+        }
+
+        .question {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option {
+            background-color: var(--secondary-color);
+            color: var(--primary-color);
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+
+        .option:hover {
+            background-color: var(--accent-color);
+        }
+
+        .timer {
+            font-size: 1.2rem;
+            margin: 20px 0;
+            color: var(--accent-color);
+        }
+
+        .scoreboard {
+            font-size: 1rem;
+            margin-top: 20px;
+        }
+
+        .result {
+            margin-top: 20px;
+        }
+
+        .result.correct {
+            color: lightgreen;
+        }
+
+        .result.incorrect {
+            color: tomato;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
+            margin-top: 20px;
+        }
+
+        .shape-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .shape-animation div {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: var(--secondary-color);
+            opacity: 0.7;
+            border-radius: 50%;
+            animation: float 6s infinite ease-in-out;
+        }
+
+        .shape-animation div:nth-child(odd) {
+            animation-duration: 7s;
+            background: var(--accent-color);
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0);
+            }
+            50% {
+                transform: translateY(-20px) rotate(45deg);
+            }
+            100% {
+                transform: translateY(0) rotate(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Cybersecurity Quiz Challenge</h1>
+    </header>
+
+    <div class="quiz-container">
+        <div class="quiz-card">
+            <h2>Test Your Knowledge</h2>
+            <div class="timer">Time left: <span id="timer">10</span> seconds</div>
+            <div class="question" id="question">Loading question...</div>
+            <div class="options" id="options"></div>
+            <div class="scoreboard" id="scoreboard">Score: 0</div>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2025 Cybersecurity CTF Challenge
+    </footer>
+
+    <div class="shape-animation">
+        <div style="left: 10%; top: 15%;"></div>
+        <div style="left: 50%; top: 40%;"></div>
+        <div style="left: 80%; top: 70%;"></div>
+        <div style="left: 30%; top: 80%;"></div>
+        <div style="left: 70%; top: 10%;"></div>
+    </div>
+
+    <script>
+        const questions = [
+            { 
+                question: "What does SQL stand for?", 
+                options: ["Structured Query Language", "Secure Query Language", "Simple Query Language", "Server Query Language"], 
+                answer: "Structured Query Language" 
+            },
+            { 
+                question: "What is XSS in cybersecurity?", 
+                options: ["Cross-Site Scripting", "Cross-Server Scripting", "XML Site Script", "Extra Secure Script"], 
+                answer: "Cross-Site Scripting" 
+            },
+            { 
+                question: "What is the default port for HTTP?", 
+                options: ["80", "443", "21", "25"], 
+                answer: "80" 
+            },
+            { 
+                question: "Which protocol is used to secure web traffic?", 
+                options: ["HTTPS", "FTP", "SMTP", "DNS"], 
+                answer: "HTTPS" 
+            },
+            { 
+                question: "What is a common tool for network scanning?", 
+                options: ["Nmap", "Wireshark", "Burp Suite", "Metasploit"], 
+                answer: "Nmap" 
+            },
+            { 
+                question: "What does DNS stand for?", 
+                options: ["Domain Name System", "Dynamic Network Service", "Data Name Server", "Domain Name Server"], 
+                answer: "Domain Name System" 
+            },
+            { 
+                question: "What is the default port for SSH?", 
+                options: ["22", "21", "25", "23"], 
+                answer: "22" 
+            },
+            { 
+                question: "What is a brute-force attack?", 
+                options: ["Trying all possible combinations", "Phishing attempt", "Man-in-the-middle attack", "Buffer overflow"], 
+                answer: "Trying all possible combinations" 
+            },
+            { 
+                question: "Which is a type of malware?", 
+                options: ["Trojan", "Firewall", "Encryption", "Proxy"], 
+                answer: "Trojan" 
+            },
+            { 
+                question: "What is the primary purpose of a firewall?", 
+                options: ["Block unauthorized access", "Scan for viruses", "Encrypt data", "Monitor bandwidth"], 
+                answer: "Block unauthorized access" 
+            },
+            { 
+                question: "What is phishing?", 
+                options: ["Deceptive attempt to steal credentials", "Sniffing network traffic", "Encrypting data", "Flooding a server"], 
+                answer: "Deceptive attempt to steal credentials" 
+            },
+            { 
+                question: "Which encryption algorithm is asymmetric?", 
+                options: ["RSA", "AES", "MD5", "SHA"], 
+                answer: "RSA" 
+            },
+            { 
+                question: "What does VPN stand for?", 
+                options: ["Virtual Private Network", "Variable Port Network", "Verified Protocol Network", "Virtual Protected Node"], 
+                answer: "Virtual Private Network" 
+            },
+            { 
+                question: "What is the purpose of hashing?", 
+                options: ["Ensure data integrity", "Encrypt data", "Transmit data securely", "Monitor traffic"], 
+                answer: "Ensure data integrity" 
+            },
+            { 
+                question: "What is the default port for HTTPS?", 
+                options: ["443", "80", "21", "22"], 
+                answer: "443" 
+            },
+            { 
+                question: "What is a vulnerability in cybersecurity?", 
+                options: ["Weakness in a system", "A type of malware", "Encrypted communication", "Secure data"], 
+                answer: "Weakness in a system" 
+            },
+            { 
+                question: "What is the primary goal of a DDoS attack?", 
+                options: ["Overload a server", "Steal data", "Encrypt files", "Scan network"], 
+                answer: "Overload a server" 
+            },
+            { 
+                question: "What is malware?", 
+                options: ["Malicious software", "Network protocol", "Encryption method", "System update"], 
+                answer: "Malicious software" 
+            },
+            { 
+                question: "Which is not a type of attack?", 
+                options: ["HTTPS", "Phishing", "SQL Injection", "Man-in-the-middle"], 
+                answer: "HTTPS" 
+            },
+            { 
+                question: "What is the main purpose of penetration testing?", 
+                options: ["Identify vulnerabilities", "Scan a network", "Encrypt sensitive data", "Monitor bandwidth"], 
+                answer: "Identify vulnerabilities" 
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let timerInterval;
+        let timeLeft = 10;
+        const incorrectAnswers = [];
+
+        const timerElement = document.getElementById("timer");
+        const questionElement = document.getElementById("question");
+        const optionsElement = document.getElementById("options");
+        const scoreboardElement = document.getElementById("scoreboard");
+
+        function startQuiz() {
+            showQuestion(currentQuestionIndex);
+            startTimer();
+        }
+
+        function showQuestion(index) {
+            if (index >= questions.length) {
+                endQuiz();
+                return;
+            }
+            const currentQuestion = questions[index];
+            questionElement.textContent = currentQuestion.question;
+            optionsElement.innerHTML = "";
+            currentQuestion.options.forEach(option => {
+                const button = document.createElement("button");
+                button.classList.add("option");
+                button.textContent = option;
+                button.onclick = () => handleAnswer(option);
+                optionsElement.appendChild(button);
+            });
+        }
+
+        function handleAnswer(selectedOption) {
+            const currentQuestion = questions[currentQuestionIndex];
+            if (selectedOption !== currentQuestion.answer) {
+                incorrectAnswers.push({
+                    question: currentQuestion.question,
+                    selected: selectedOption,
+                    correct: currentQuestion.answer
+                });
+            } else {
+                score++;
+            }
+            currentQuestionIndex++;
+            resetTimer();
+            showQuestion(currentQuestionIndex);
+        }
+
+        function startTimer() {
+            clearInterval(timerInterval);
+            timeLeft = 5;
+            timerElement.textContent = timeLeft;
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                timerElement.textContent = timeLeft;
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    handleAnswer(null); // Timeout, move to next question
+                }
+            }, 1000);
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            startTimer();
+        }
+
+        function endQuiz() {
+            clearInterval(timerInterval);
+            questionElement.textContent = "Quiz Over!";
+            optionsElement.innerHTML = "";
+            scoreboardElement.textContent = `Final Score: ${score}/${questions.length}`;
+
+            if (incorrectAnswers.length > 0) {
+                const resultElement = document.createElement("div");
+                resultElement.innerHTML = "<h3>Incorrect Answers:</h3>";
+                incorrectAnswers.forEach(item => {
+                    const questionResult = document.createElement("div");
+                    questionResult.innerHTML = `<p><strong>Question:</strong> ${item.question}</p>
+                                                 <p><strong>Your Answer:</strong> ${item.selected || "No answer"}</p>
+                                                 <p><strong>Correct Answer:</strong> ${item.correct}</p><hr>`;
+                    resultElement.appendChild(questionResult);
+                });
+                document.querySelector(".quiz-card").appendChild(resultElement);
+            }
+        }
+
+        startQuiz();
+    </script>
+</body>
+</html>
