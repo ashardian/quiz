@@ -183,28 +183,42 @@
     </div>
 
     <script>
-        const questions = [
-            { question: "What does SQL stand for?", options: ["Structured Query Language", "Secure Query Language", "Simple Query Language", "Server Query Language"], answer: "Structured Query Language" },
-            { question: "What is XSS in cybersecurity?", options: ["Cross-Site Scripting", "Cross-Server Scripting", "XML Site Script", "Extra Secure Script"], answer: "Cross-Site Scripting" },
-            { question: "What is the default port for HTTP?", options: ["80", "443", "21", "25"], answer: "80" },
-            { question: "What does HTTPS stand for?", options: ["HyperText Transfer Protocol Secure", "HyperText Transfer Secure", "Hyper Transfer Protocol Security", "HyperText Tunnel Protocol Secure"], answer: "HyperText Transfer Protocol Secure" },
-            { question: "Which tool is used for network packet analysis?", options: ["Wireshark", "Photoshop", "Autopsy", "Burp Suite"], answer: "Wireshark" },
-            { question: "What is the main purpose of a firewall?", options: ["Block unauthorized access", "Speed up networks", "Encrypt emails", "Scan for viruses"], answer: "Block unauthorized access" },
-            { question: "What does VPN stand for?", options: ["Virtual Private Network", "Virtual Protocol Network", "Verified Private Network", "Visible Private Network"], answer: "Virtual Private Network" },
-            { question: "What does DDoS stand for?", options: ["Distributed Denial of Service", "Dedicated Denial of Service", "Delayed Denial of Service", "Dynamic Denial of Service"], answer: "Distributed Denial of Service" },
-            { question: "Which cryptographic hash function is 128-bit?", options: ["MD5", "SHA-256", "AES-128", "SHA-512"], answer: "MD5" },
-            { question: "What does MFA stand for?", options: ["Multi-Factor Authentication", "Maximum Factor Authentication", "Minimum Factor Access", "Multi-Factor Access"], answer: "Multi-Factor Authentication" },
-            { question: "Which protocol encrypts web traffic by default?", options: ["HTTPS", "FTP", "SMTP", "SSH"], answer: "HTTPS" },
-            { question: "Which tool is used for ethical hacking?", options: ["Kali Linux", "Windows Explorer", "PowerPoint", "Microsoft Word"], answer: "Kali Linux" },
-            { question: "What is the term for phishing via SMS?", options: ["Smishing", "Phishing", "Spoofing", "Spamming"], answer: "Smishing" },
-            { question: "What is the default port for HTTPS?", options: ["443", "80", "21", "25"], answer: "443" },
-            { question: "Which encryption standard is used in modern Wi-Fi?", options: ["WPA3", "WEP", "MD5", "SHA1"], answer: "WPA3" },
-            { question: "What does IDS stand for?", options: ["Intrusion Detection System", "Internet Detection System", "Internal Defense System", "Identity Defense System"], answer: "Intrusion Detection System" },
-            { question: "Which programming language is commonly used in cybersecurity?", options: ["Python", "HTML", "Photoshop", "Excel"], answer: "Python" },
-            { question: "What is the process of scrambling data for security?", options: ["Encryption", "Decryption", "Hashing", "Phishing"], answer: "Encryption" },
-            { question: "What is an open-source intelligence tool?", options: ["OSINT", "Wireshark", "Burp Suite", "Nmap"], answer: "OSINT" },
-            { question: "Which protocol is used for secure file transfer?", options: ["SFTP", "HTTP", "SMTP", "FTP"], answer: "SFTP" }
-        ];
+const questions = [
+    { question: "What does SQL stand for?", options: ["Structured Query Language", "Secure Query Language", "Simple Query Language", "Server Query Language"], answer: "Structured Query Language" },
+    { question: "What is XSS in cybersecurity?", options: ["Cross-Site Scripting", "Cross-Server Scripting", "XML Site Script", "Extra Secure Script"], answer: "Cross-Site Scripting" },
+    { question: "What is the default port for HTTP?", options: ["80", "443", "21", "25"], answer: "80" },
+    { question: "What does HTTPS stand for?", options: ["HyperText Transfer Protocol Secure", "HyperText Transfer Secure", "Hyper Transfer Protocol Security", "HyperText Tunnel Protocol Secure"], answer: "HyperText Transfer Protocol Secure" },
+    { question: "Which tool is used for network packet analysis?", options: ["Wireshark", "Photoshop", "Autopsy", "Burp Suite"], answer: "Wireshark" },
+    { question: "What is the main purpose of a firewall?", options: ["Block unauthorized access", "Speed up networks", "Encrypt emails", "Scan for viruses"], answer: "Block unauthorized access" },
+    { question: "What does VPN stand for?", options: ["Virtual Private Network", "Virtual Protocol Network", "Verified Private Network", "Visible Private Network"], answer: "Virtual Private Network" },
+    { question: "What does DDoS stand for?", options: ["Distributed Denial of Service", "Dedicated Denial of Service", "Delayed Denial of Service", "Dynamic Denial of Service"], answer: "Distributed Denial of Service" },
+    { question: "Which cryptographic hash function is 128-bit?", options: ["MD5", "SHA-256", "AES-128", "SHA-512"], answer: "MD5" },
+    { question: "What does MFA stand for?", options: ["Multi-Factor Authentication", "Maximum Factor Authentication", "Minimum Factor Access", "Multi-Factor Access"], answer: "Multi-Factor Authentication" },
+    { question: "Which protocol encrypts web traffic by default?", options: ["HTTPS", "FTP", "SMTP", "SSH"], answer: "HTTPS" },
+    { question: "Which tool is used for ethical hacking?", options: ["Kali Linux", "Windows Explorer", "PowerPoint", "Microsoft Word"], answer: "Kali Linux" },
+    { question: "What is the term for phishing via SMS?", options: ["Smishing", "Phishing", "Spoofing", "Spamming"], answer: "Smishing" },
+    { question: "What is the default port for HTTPS?", options: ["443", "80", "21", "25"], answer: "443" },
+    { question: "Which encryption standard is used in modern Wi-Fi?", options: ["WPA3", "WEP", "MD5", "SHA1"], answer: "WPA3" },
+    { question: "What does IDS stand for?", options: ["Intrusion Detection System", "Internet Detection System", "Internal Defense System", "Identity Defense System"], answer: "Intrusion Detection System" },
+    { question: "Which programming language is commonly used in cybersecurity?", options: ["Python", "HTML", "Photoshop", "Excel"], answer: "Python" },
+    { question: "What is the process of scrambling data for security?", options: ["Encryption", "Decryption", "Hashing", "Phishing"], answer: "Encryption" },
+    { question: "What is an open-source intelligence tool?", options: ["OSINT", "Wireshark", "Burp Suite", "Nmap"], answer: "OSINT" },
+    { question: "Which protocol is used for secure file transfer?", options: ["SFTP", "HTTP", "SMTP", "FTP"], answer: "SFTP" }
+];
+
+function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}
+
+questions.forEach(question => {
+    shuffle(question.options);
+});
+
+console.log(questions);
+
 
 
         let currentQuestionIndex = 0;
