@@ -272,7 +272,7 @@ console.log(questions);
 
         function startTimer() {
             clearInterval(timerInterval);
-            timeLeft = 5;
+            timeLeft = 10;
             timerElement.textContent = timeLeft;
             timerInterval = setInterval(() => {
                 timeLeft--;
@@ -310,6 +310,44 @@ console.log(questions);
         }
 
         startQuiz();
+
+        // Disable right-click
+document.addEventListener("contextmenu", (event) => {
+    event.preventDefault();
+    alert("Right-click is disabled for security reasons.");
+});
+
+// Disable specific key combinations
+document.addEventListener("keydown", (event) => {
+    if (
+        event.key === "F12" || // F12 for DevTools
+        (event.ctrlKey && event.shiftKey && (event.key === "I" || event.key === "J")) || // Ctrl+Shift+I/J for DevTools and Console
+        (event.ctrlKey && event.key === "U") || // Ctrl+U for View Source
+        (event.ctrlKey && event.key === "S") // Ctrl+S for Save
+    ) {
+        event.preventDefault();
+        alert("This action is disabled for security reasons.");
+    }
+});
+
+// Monitor for DevTools being opened
+let devtoolsOpen = false;
+const element = new Image();
+Object.defineProperty(element, 'id', {
+    get: function () {
+        devtoolsOpen = true;
+        alert("Developer tools are disabled for security reasons.");
+    }
+});
+setInterval(() => {
+    devtoolsOpen = false;
+    console.log(element);
+    if (devtoolsOpen) {
+        window.location.reload(); // Optional: Reload the page if DevTools are detected
+    }
+}, 1000);
+
     </script>
+    
 </body>
 </html>
